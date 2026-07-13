@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const articulos = (await getCollection('articulos', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="Tutoriales de Docker, .NET, Angular y self-hosting en VPS"
+  description="Tutoriales y comparativas técnicas sobre despliegue, Docker, .NET, Angular y self-hosting en VPS, escritos desde la experiencia real de mi propia infraestructura."
+>
+  <h1 class="text-3xl font-bold mt-8 mb-2">Tutoriales y comparativas técnicas</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-10">
+    Despliegue, Docker, .NET, Angular y self-hosting en VPS — con datos y capturas de mi propia infraestructura.
+  </p>
+
+  <ul class="flex flex-col gap-8">
+    {
+      articulos.map((articulo) => (
+        <li>
+          <a href={`/articulos/${articulo.slug}`} class="group block">
+            <p class="text-xs uppercase tracking-wide text-cyan-600 dark:text-cyan-400 mb-1">{articulo.data.categoria}</p>
+            <h2 class="text-xl font-semibold group-hover:text-cyan-600 dark:group-hover:text-cyan-400">{articulo.data.title}</h2>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">{articulo.data.description}</p>
+            <time class="text-xs text-gray-400" datetime={articulo.data.pubDate.toISOString()}>
+              {articulo.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

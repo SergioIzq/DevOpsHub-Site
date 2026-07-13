@@ -1,0 +1,40 @@
+---
+import Navbar from '@/components/sections/Navbar.astro';
+import SeoHead from '@/components/seo/SeoHead.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath } = Astro.props;
+---
+
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="devops.sergioizq.com" href="/rss.xml" />
+    <SeoHead title={title} description={description} canonicalPath={canonicalPath} />
+    <slot name="head" />
+  </head>
+
+  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
+    <header>
+      <Navbar />
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 pb-16">
+      <slot />
+    </main>
+
+    <footer class="max-w-3xl mx-auto px-4 py-8 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-800 mt-8">
+      <p>© {new Date().getFullYear()} Sergio Izquierdo. Tutoriales de Docker, .NET, Angular y self-hosting en VPS.</p>
+    </footer>
+  </body>
+</html>

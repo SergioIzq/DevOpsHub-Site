@@ -1,0 +1,42 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArticleSchema from '@/components/seo/ArticleSchema.astro';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos', ({ data }) => !data.draft);
+  return articulos.map((articulo) => ({
+    params: { slug: articulo.slug },
+    props: { articulo }
+  }));
+}
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+}
+
+const { articulo } = Astro.props;
+const { Content } = await articulo.render();
+const canonicalPath = `/articulos/${articulo.slug}`;
+---
+
+<BaseLayout title={articulo.data.title} description={articulo.data.description} canonicalPath={canonicalPath}>
+  <Fragment slot="head">
+    <ArticleSchema
+      title={articulo.data.title}
+      description={articulo.data.description}
+      pubDate={articulo.data.pubDate}
+      updatedDate={articulo.data.updatedDate}
+      canonicalPath={canonicalPath}
+    />
+  </Fragment>
+
+  <article class="prose dark:prose-invert max-w-none mt-8">
+    <p class="text-xs uppercase tracking-wide text-cyan-600 dark:text-cyan-400 mb-1">{articulo.data.categoria}</p>
+    <h1>{articulo.data.title}</h1>
+    <time class="text-sm text-gray-400" datetime={articulo.data.pubDate.toISOString()}>
+      {articulo.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </time>
+    <Content />
+  </article>
+</BaseLayout>

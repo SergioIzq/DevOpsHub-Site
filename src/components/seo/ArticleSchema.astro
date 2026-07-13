@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  canonicalPath: string;
+}
+
+const { title, description, pubDate, updatedDate, canonicalPath } = Astro.props;
+const url = new URL(canonicalPath, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Sergio Izquierdo',
+    url: 'https://sergioizq.com'
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Sergio Izquierdo'
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
