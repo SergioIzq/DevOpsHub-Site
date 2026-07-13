@@ -1,10 +1,37 @@
 ---
+import ThemeToggle from '@/components/ThemeToggle.astro';
+
+const currentPath = Astro.url.pathname;
+const isActive = (path: string) => (path === '/' ? currentPath === '/' : currentPath.startsWith(path));
 ---
 
-<nav class="max-w-3xl mx-auto px-4 py-6 flex items-center justify-between">
-  <a href="/" class="font-bold text-lg text-gray-900 dark:text-white">devops.sergioizq.com</a>
-  <div class="flex gap-6 text-sm text-gray-600 dark:text-gray-300">
-    <a href="/" class="hover:text-cyan-600 dark:hover:text-cyan-400">Artículos</a>
-    <a href="/herramientas" class="hover:text-cyan-600 dark:hover:text-cyan-400">Herramientas</a>
+<nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+  <a href="/" class="flex items-center gap-2 font-semibold text-gray-900 dark:text-white">
+    <span class="flex h-7 w-7 items-center justify-center rounded-md bg-cyan-600 font-mono text-xs text-white">&lt;/&gt;</span>
+    <span>devops.sergioizq.com</span>
+  </a>
+
+  <div class="flex items-center gap-1">
+    <a
+      href="/"
+      class={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        isActive('/') && !isActive('/herramientas')
+          ? 'text-cyan-600 dark:text-cyan-400'
+          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+      }`}
+    >
+      Artículos
+    </a>
+    <a
+      href="/herramientas"
+      class={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        isActive('/herramientas') ? 'text-cyan-600 dark:text-cyan-400' : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+      }`}
+    >
+      Herramientas
+    </a>
+    <div class="ml-2 border-l border-gray-200 pl-2 dark:border-gray-800">
+      <ThemeToggle />
+    </div>
   </div>
 </nav>

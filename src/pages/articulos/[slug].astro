@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ArticleSchema from '@/components/seo/ArticleSchema.astro';
+import { categoryLabel, categoryStyles, formatDate, readingTime } from '@/lib/content';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos', ({ data }) => !data.draft);
@@ -18,6 +19,7 @@ interface Props {
 const { articulo } = Astro.props;
 const { Content } = await articulo.render();
 const canonicalPath = `/articulos/${articulo.slug}`;
+const minutos = readingTime(articulo.body);
 ---
 
 <BaseLayout title={articulo.data.title} description={articulo.data.description} canonicalPath={canonicalPath}>
@@ -31,12 +33,40 @@ const canonicalPath = `/articulos/${articulo.slug}`;
     />
   </Fragment>
 
-  <article class="prose dark:prose-invert max-w-none mt-8">
-    <p class="text-xs uppercase tracking-wide text-cyan-600 dark:text-cyan-400 mb-1">{articulo.data.categoria}</p>
-    <h1>{articulo.data.title}</h1>
-    <time class="text-sm text-gray-400" datetime={articulo.data.pubDate.toISOString()}>
-      {articulo.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
-    </time>
-    <Content />
+  <article class="mx-auto max-w-2xl px-6 pb-24 pt-12">
+    <a href="/" class="text-sm font-medium text-gray-500 transition-colors hover:text-cyan-600 dark:text-gray-400 dark:hover:text-cyan-400">
+      ← Todos los artículos
+    </a>
+
+    <header class="mt-6">
+      <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${categoryStyles(articulo.data.categoria)}`}>
+        {categoryLabel(articulo.data.categoria)}
+      </span>
+
+      <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white md:text-4xl">{articulo.data.title}</h1>
+
+      <div class="mt-4 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+        <time datetime={articulo.data.pubDate.toISOString()}>{formatDate(articulo.data.pubDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{minutos} min de lectura</span>
+      </div>
+    </header>
+
+    <div class="prose prose-gray mt-10 dark:prose-invert prose-headings:font-semibold prose-headings:tracking-tight prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-800">
+      <Content />
+    </div>
+
+    <aside class="mt-16 rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900/40">
+      <p class="font-semibold text-gray-900 dark:text-white">¿Buscando dónde desplegar esto?</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        Comparo precio, vCPU, RAM y almacenamiento de los proveedores de VPS que uso yo mismo.
+      </p>
+      <a
+        href="/comparador/"
+        class="mt-4 inline-flex items-center gap-1 rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-cyan-700"
+      >
+        Abrir el comparador de VPS →
+      </a>
+    </aside>
   </article>
 </BaseLayout>

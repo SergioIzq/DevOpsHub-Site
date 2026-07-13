@@ -6,15 +6,43 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   title="Herramientas: comparador de VPS y hosting"
   description="Comparador interactivo de planes de VPS y hosting (Hetzner, DigitalOcean, Cloudways, Hostinger) por precio, vCPU, RAM y almacenamiento."
 >
-  <h1 class="text-3xl font-bold mt-8 mb-4">Herramientas</h1>
-  <p class="text-gray-600 dark:text-gray-400 mb-8">
-    Comparador interactivo de planes de VPS/hosting, con los datos que uso yo mismo para decidir dónde desplegar.
-  </p>
+  <section class="mx-auto max-w-3xl px-6 pb-24 pt-16 md:pt-24">
+    <p class="text-sm font-medium text-cyan-600 dark:text-cyan-400">Herramientas</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Comparador de VPS y hosting</h1>
+    <p class="mt-4 max-w-xl text-lg text-gray-600 dark:text-gray-400">
+      Precio, vCPU, RAM y almacenamiento de los proveedores que uso yo mismo para decidir dónde desplegar — nada de
+      tablas copiadas de otro sitio.
+    </p>
 
-  <a
-    href="/comparador/"
-    class="inline-block rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 py-3 transition-colors"
-  >
-    Abrir el comparador de VPS →
-  </a>
+    <div class="mt-10 rounded-xl border border-gray-200 bg-gray-50 p-8 dark:border-gray-800 dark:bg-gray-900/40">
+      <div class="flex items-start gap-4">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-cyan-600/10 text-cyan-600 dark:text-cyan-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="8" rx="2"></rect>
+            <rect x="2" y="13" width="20" height="8" rx="2"></rect>
+            <line x1="6" y1="7" x2="6.01" y2="7"></line>
+            <line x1="6" y1="17" x2="6.01" y2="17"></line>
+          </svg>
+        </span>
+        <div>
+          <p class="font-semibold text-gray-900 dark:text-white">Comparador interactivo</p>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            Filtra por proveedor, ordena por precio y compara specs lado a lado. Datos actualizados cada trimestre.
+          </p>
+        </div>
+      </div>
+
+      <a
+        href="/comparador/"
+        class="mt-6 inline-flex items-center gap-1 rounded-lg bg-cyan-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-cyan-700"
+      >
+        Abrir el comparador →
+      </a>
+    </div>
+
+    <p class="mt-6 text-xs text-gray-400 dark:text-gray-500">
+      Algunos enlaces son de afiliado: si compras a través de ellos, este sitio recibe una pequeña comisión sin coste
+      extra para ti.
+    </p>
+  </section>
 </BaseLayout>
